@@ -31,7 +31,7 @@ class LoginPageStrategy(RouteStrategy):
 
 class CreateAccountStrategy(RouteStrategy):
     def matches(self, path):
-        return path == "/create-account"
+        return path == "/create"
 
     def execute(self, request, assets):
         return assets.fetch(request, "/create.html")
