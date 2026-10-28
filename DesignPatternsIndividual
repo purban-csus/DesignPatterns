@@ -1,1 +1,37 @@
-Pawel Urban
+For the individual portion, I chose the Strategy pattern for the page routing. The Cloudflare "worker" receives URL requests which then determines which HTML page to redirect the user to. 
+Currently it uses the if/elif/else statements to handle the requests, and for a small number of pages it works. However, as more pages are added, the if/else statement might become too 
+complex and difficult to maintain.
+
+The Strategy pattern allows each route to have its own class for handling the route. The Strategy interface would define a common method and then the individual strategies could handle the 
+routes like the login page, home page, etc. The worker selects the correct strategy and then handles the redirect request. This is more maintainable than putting every route inside a large 
+if/else statement as adding new pages only requires a new strategy, rather than altering the code.
+
+
+# Strategy interface
+class RouteStrategy:
+    def matches(self, path):
+
+
+# Page Routing Strategies
+class HomePageStrategy(RouteStrategy):
+    def matches(self, path):
+        return path == "/" or path == "/home"
+
+    def execute(self, request, assets):
+        return assets.fetch(request, "/home.html")
+
+
+class LoginPageStrategy(RouteStrategy):
+    def matches(self, path):
+        return path == "/login"
+
+    def execute(self, request, assets):
+        return assets.fetch(request, "/login.html")
+
+
+class CreateAccountStrategy(RouteStrategy):
+    def matches(self, path):
+        return path == "/create-account"
+
+    def execute(self, request, assets):
+        return assets.fetch(request, "/create.html")
